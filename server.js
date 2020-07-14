@@ -1,10 +1,23 @@
 const express = require('express');
-const app = express();
+const bodyParser = require('body-parser');
+// const router = require('./api/v1/users/user.routes');
+const connectDB = require('./db');
+const cors = require('cors');
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended:true
+}));
+
+app.use(cors());
+
+// app.use('/', router);
+
+app.get('/', (req,res) => {
+    res.send('Welcome to API');
 });
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
+connectDB(() => {
+    app.listen(8080, () => console.log("Listening on 8080 port"));
 });
