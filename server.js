@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(cors());
 
-// app.use('/', router);
+app.use('/orders', require('./routes/Order'));
 
 app.get('/', (req,res) => {
     res.send('Welcome to API');
