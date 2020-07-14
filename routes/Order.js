@@ -4,7 +4,7 @@ const orderRouter = new router();
 
 orderRouter.get('/:orderId', async (req, res) => {
     try {
-        const orderData = await Order.findById(orderId);
+        const orderData = await Order.findById(req.params.orderId);
         res.status(200).json(orderData);
     } catch (e) {
         res.status(500).json({
@@ -34,11 +34,11 @@ orderRouter.get('/:orderId', async (req, res) => {
 
   orderRouter.put('/:orderId/status/:st', async (req, res) => {
     try {
-        let orderData = await Order.findById(order);
-        if (!order) {
+        let orderData = await Order.findById(req.params.orderId);
+        if (!orderData) {
             throw new Error('No Order Found');
          }
-         orderData.status = st;
+         orderData.status = req.params.st;
          const order = await orderData.save();
          res.status(201).json(order);
     } catch (e) {
