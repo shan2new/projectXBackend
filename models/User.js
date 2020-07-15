@@ -7,8 +7,7 @@ const User = new mongoose.Schema(
     },
     "userName": {
       type: String,
-      required: true,
-      unique: true
+      required: true
     },
     "password": {
       type: String,
@@ -26,7 +25,6 @@ const User = new mongoose.Schema(
     "phoneNumber": {
       type: String,
       required: true,
-      unique: true,
       validate: {
         validator: (v) => {
           return /^[9][1]\d{10}$/.test(v);

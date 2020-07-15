@@ -16,12 +16,21 @@ router.get('/:userName', async (request, response) => {
 });
 
 router.post('/create', async (request, response) => {
+
   try {
-    const userEmail = await User.findOne({ email: request.body.email })
-    if (userEmail) {
-      throw new Error('Email Address already exist');
-    }
+
     const { name, userName, password, email, phoneNumber, role } = request.body;
+
+    console.log(await User.find({ userName }))
+
+    if (await User.findOne({ userName })) {
+      throw new Error('userName Already Exist');
+    } else if (await User.findOne({ phoneNumber })) {
+      throw new Error('phoneNumber Already Exist');
+    } else if (email && await User.findOne({ email })) {
+      throw new Error('email already Exist');
+    }
+
     const newUser = new User({ name, userName, password, email, phoneNumber, role });
     const userData = await newUser.save();
     response.status(201).json(userData);
