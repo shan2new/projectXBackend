@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-let link = "mongodb://localhost/projectX";
+let link = process.env.DB_LINK;
 
 let connect = (callback) => {
     mongoose.connect(link, { useNewUrlParser: true })

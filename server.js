@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const connectDB = require('./db');
 const cors = require('cors');
 const userRouter = require('./routes/User');
+const port = process.env.PORT || 8080;
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,5 +28,5 @@ app.get('/', (req, res) => {
 });
 
 connectDB(() => {
-  app.listen(8080, () => console.log("Listening on 8080 port"));
+  app.listen(port, () => console.log(`Listening on ${port} port`));
 });
