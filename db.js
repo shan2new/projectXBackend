@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 let link = process.env.DB_LINK;
 
 let connect = (callback) => {
-    mongoose.connect(link, { useNewUrlParser: true })
+    mongoose.connect(link, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {
             console.log("MongoDB conected ...")
             callback();
