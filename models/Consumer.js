@@ -11,10 +11,10 @@ const Consumer = new Schema({
     required: true,
     unique: true,
   },
-  address: {
+  address: [{
     type: String,
     required: true,
-  },
+  }],
   email: {
     type: String,
     required: true,

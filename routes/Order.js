@@ -44,9 +44,8 @@ router.post("/create", async (req, res) => {
             record.orderQueue.push(newOrder._id);
             record.save()
               .then(() => {
-                console.log('Producer Receives Order Succesfully');
-                // const msg = `Hi there! Thank's for placing an order. Your order ID is ${newOrder._id}`;
-                // sendNotification(newOrder.producerID, msg);
+                const msg = `Hi there! You have received an order for ${newOrder.itemName}.`;
+                sendNotification(newOrder.producerID, msg);
                 res.json(newOrder);
               })
           })
@@ -88,7 +87,7 @@ router.put("/:orderId/status/:st", async (req, res) => {
 });
 
 async function sendNotification(producerID, message) {
-  let producer = await Consumer.findById(producerID).select({
+  let producer = await Producer.findById(producerID).select({
     _id: 0,
     phoneNumber: 1,
   });
@@ -102,6 +101,7 @@ async function sendNotification(producerID, message) {
       },
     },
   };
+  console.log(producer["phoneNumber"]);
   request(
     {
       url: "https://messages-sandbox.nexmo.com/v0.1/messages",
