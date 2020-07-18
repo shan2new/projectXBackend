@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start_local": "node -r dotenv/config server.js"
+    "start_local": "node -r dotenv/config server.js",
+    "run_nodemon": "nodemon server.js"
   },
   "repository": {
     "type": "git",
