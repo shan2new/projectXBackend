@@ -19,7 +19,6 @@ router.get("/:orderId", async (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-  console.log("Inside Order Create");
   try {
     const {
       itemName,
