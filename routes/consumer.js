@@ -18,7 +18,6 @@ router.get("/:phoneNumber", async (req, res) => {
 });
 
 router.post("/new", async (req, res) => {
-  console.log("Inside consumer post api");
   try {
     const { name, phoneNumber, address, email } = req.body;
 

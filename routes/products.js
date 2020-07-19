@@ -1,38 +1,52 @@
 const express = require("express");
 const router = express.Router();
-const fetch = require("node-fetch");
+const Producer = require("../models/Producer");
+const Products = require("../models/Products");
 
-router.get("/list", async (req, res) => {
-  let res_id = [
-    18494129,
-    18674420,
-    18531910,
-    18735687,
-    18357341,
-    39692,
-    36267,
-    36272,
-    16538641,
-  ];
-  let ar = [];
-  for (let i = 0; i < res_id.length; i++) {
-    let querystring =
-      "https://developers.zomato.com/api/v2.1/restaurant?res_id=" + res_id[i];
-    let promise = fetch(querystring, {
-      method: "get",
-      headers: { "user-key": process.env.API_KEY },
-    })
-      .then((response) => response.json())
-      .catch((err) => console.log(err));
-    ar.push(promise);
+
+router.get('/list/:producerId', async (req, res) => {
+  const producers = await Producer.findById(req.params.producerId);
+  let products = []
+  for (let product of producers.products) {
+    products.push(Products.findById(product));
   }
-  Promise.all(ar).then((results) => {
-    let arr = [];
-    for (let i = 0; i < results.length; i++) {
-      arr.push(results[i]);
-    }
-    res.json({ restaurants: arr });
-  });
+  Promise.all(products)
+    .then(data => res.json(data))
+    .catch(e => {
+      console.log(e)
+      res.status(500).json({
+        type: "Error",
+        name: e.name,
+        message: e.message,
+      });
+    });
+});
+
+router.post('/add', async (req, res) => {
+  try {
+    const { price, description, image, category, producedBy } = req.body;
+    const newProduct = new Products({
+      price,
+      description,
+      image,
+      category,
+      producedBy,
+    });
+
+    await newProduct.save();
+    const assignedProducer = await Producer.findById(newProduct.producedBy);
+    assignedProducer.products.push(newProduct);
+    await assignedProducer.save();
+    await Producer.findById(newProduct.producedBy);
+    res.json(newProduct);
+  } catch (e) {
+    console.log('Unable to Add Product');
+    res.status(500).json({
+      type: "Error",
+      name: e.name,
+      message: e.message,
+    });
+  }
 });
 
 module.exports = router;

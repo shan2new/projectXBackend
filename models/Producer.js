@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Products = require("./Products");
 
 const Producer = new Schema({
   name: {
@@ -18,6 +17,19 @@ const Producer = new Schema({
   email: {
     type: String,
     required: true,
+  },
+  cuisines: {
+    type: String,
+  },
+  average_cost_for_two: {
+    type: Number,
+    required: true
+  },
+  thumb: {
+    type: String,
+  },
+  featured_image: {
+    type: String
   },
   rating: {
     type: Number,

@@ -15,6 +15,7 @@ const ProductSchema = new Schema({
   producedBy: {
     type: Schema.Types.ObjectId,
     ref: "Producer",
+    required: true
   },
 });
 
