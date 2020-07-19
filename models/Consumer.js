@@ -12,7 +12,6 @@ const Consumer = new Schema({
   },
   address: [{
     type: String,
-    required: true
   }],
   email: {
     type: String,

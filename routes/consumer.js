@@ -4,10 +4,15 @@ const Consumer = require("../models/Consumer");
 
 router.get("/:identifierId", async (req, res) => {
   try {
-    const consumerData = await Consumer.findOne({
-      identifierId: req.params.identifierId,
-    });
-    res.status(201).json(consumerData);
+    const consumerData = await (await Consumer.findOne({ identifierId: req.params.identifierId, }));
+    const keys = ['name', 'identifierId', 'email']
+    const consumer = Object.keys(consumerData.toJSON())
+      .filter(key => keys.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = consumerData[key];
+        return obj;
+      }, {})
+    res.status(201).json(consumer);
   } catch (e) {
     res.status(500).json({
       type: "Error",
