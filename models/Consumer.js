@@ -8,17 +8,20 @@ const Consumer = new Schema({
   },
   phoneNumber: {
     type: String,
-    required: true,
     unique: true,
   },
   address: [{
     type: String,
-    required: true,
+    required: true
   }],
   email: {
     type: String,
     required: true,
     unique: true,
+  },
+  identifierId: {
+    type: String,
+    required: true
   },
   orderHistory: [
     {

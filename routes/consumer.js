@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Consumer = require("../models/Consumer");
 
-router.get("/:phoneNumber", async (req, res) => {
+router.get("/:identifierId", async (req, res) => {
   try {
     const consumerData = await Consumer.findOne({
-      phoneNumber: req.params.phoneNumber,
+      identifierId: req.params.identifierId,
     });
     res.status(201).json(consumerData);
   } catch (e) {
@@ -19,18 +19,22 @@ router.get("/:phoneNumber", async (req, res) => {
 
 router.post("/new", async (req, res) => {
   try {
-    const { name, phoneNumber, address, email } = req.body;
+    const { name, phoneNumber, address, email, identifierId } = req.body;
 
     if (await Consumer.findOne({ phoneNumber })) {
-      throw new Error("phoneNumber Already Exist");
+      throw new Error("PhoneNumber Already Exist");
     } else if (await Consumer.findOne({ email })) {
-      throw new Error("email already Exist");
+      throw new Error("Email Already Exist");
+    } else if (await Consumer.findOne({ identifierId })) {
+      throw new Error("Consumer Already Exist");
     }
+
     const newConsumer = new Consumer({
       name,
       phoneNumber,
       address,
       email,
+      identifierId
     });
 
     const consumerData = await newConsumer.save();
