@@ -26,9 +26,7 @@ router.post("/new", async (req, res) => {
   try {
     const { name, phoneNumber, address, email, identifierId } = req.body;
 
-    if (await Consumer.findOne({ phoneNumber })) {
-      throw new Error("PhoneNumber Already Exist");
-    } else if (await Consumer.findOne({ email })) {
+    if (await Consumer.findOne({ email })) {
       throw new Error("Email Already Exist");
     } else if (await Consumer.findOne({ identifierId })) {
       throw new Error("Consumer Already Exist");
